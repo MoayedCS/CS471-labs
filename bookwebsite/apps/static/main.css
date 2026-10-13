@@ -1,0 +1,44 @@
+.linkBox{
+    text-align: center;
+    padding:10px;
+    display:block;
+}
+#newTab{
+background-color: lightgreen;
+}
+#samePage{
+ background-color:#444444;
+}
+#samePageB{
+background-color:black;
+}
+a:link{color:red;}
+a:visited{color:orange;}
+a:hover{color: yellow;}
+a:active{color:blue;}
+.Title{
+    color:green;
+    background-color:#FAFAD2;
+    padding: 12px;
+}
+.listTitle{
+    color:white;
+    background-color: #5F9EA0;
+    padding: 12px;
+}
+table {
+  border-collapse: collapse;
+  margin: 20px auto;
+}
+
+table td, table th {
+  border: 1px solid #999;
+  padding: 5px 10px;
+  text-align: center;
+  color: black;
+}
+
+caption {
+  font-weight: bold;
+  padding: 5px;
+}
