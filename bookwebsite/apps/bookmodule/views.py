@@ -1,6 +1,7 @@
 # Create your views here.
 from django.http import HttpResponse
 from django.shortcuts import render
+from .models import Book
 def index(request):
        return render(request, "bookmodule/index.html")
 def index2(request, val1 = 0 ): # add the view function (index2)
@@ -45,3 +46,21 @@ def __getBooksList():
        book2 = {'id':56788765,'title':'Reversing: Secrets of Reverse Engineering', 'author':'E. Eilam'}
        book3 = {'id':43211234, 'title':'The Hundred-Page Machine Learning Book', 'author':'Andriy Burkov'}
        return [book1, book2, book3]
+def simple_query(request):
+    mybooks = Book.objects.filter(title__icontains='and')
+    return render(request, 'bookmodule/bookList.html', {'books': mybooks})
+def complex_query(request):
+    mybooks = Book.objects.filter(author__isnull=False) \
+                          .filter(title__icontains='and') \
+                          .filter(edition__gte=2) \
+                          .exclude(price__lte=100)[:10]
+
+    if len(mybooks) >= 1:
+        return render(request, 'bookmodule/bookList.html', {'books': mybooks})
+    else:
+        return render(request, 'bookmodule/index.html')
+def add_books(request):
+    Book.objects.create(title='Continuous Delivery', author='J.Humble and D. Farley', price=120.00, edition=3)
+    Book.objects.create(title='Reversing: Secrets of Reverse Engineer', author='E. Eilam', price=97.00, edition=2)
+    Book.objects.create(title='The Hundred-Page Machine Learning Book', author='Andriy Burkov', price=100.00, edition=4)
+    return HttpResponse("Books added")
