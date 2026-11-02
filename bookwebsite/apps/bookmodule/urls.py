@@ -13,5 +13,4 @@ urlpatterns = [
      path('search',views.search,name='books.search'),
      path('simple/query', views.simple_query, name='simple_query'),
      path('complex/query', views.complex_query, name='complex_query'),
-     path('add', views.add_books, name='add_books'),
 ]
