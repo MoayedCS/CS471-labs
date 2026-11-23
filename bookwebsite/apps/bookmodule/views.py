@@ -6,6 +6,7 @@ from django.db.models import Q, Count, Sum, Avg, Max, Min
 from .forms import BookForm , ProductForm
 from apps.usermodule.models import Student, Address , Student2
 from apps.usermodule.forms import StudentForm , Student2Form
+from django.contrib.auth.decorators import login_required
 def index(request):
        return render(request, "bookmodule/index.html")
 def index2(request, val1 = 0 ): # add the view function (index2)
@@ -123,13 +124,16 @@ def lab9p1_deletebook(request, id):
     book = Book.objects.get(id=id)
     book.delete()
     return redirect('lab9p1_listbooks')
+@login_required
 def lab9p2_listbooks(request):
     mybooks = Book.objects.all()
     return render(request, 'bookmodule/lab9p2_list.html', {'books': mybooks})
+@login_required
 def lab9p2_deletebook(request, id):
     book = Book.objects.get(id=id)
     book.delete()
     return redirect('lab9p2_listbooks')
+@login_required
 def lab9p2_addbook(request):
     if request.method == "POST":
         form = BookForm(request.POST)
@@ -140,6 +144,7 @@ def lab9p2_addbook(request):
         form = BookForm()
 
     return render(request, 'bookmodule/lab9p2_add.html', {'form': form})
+@login_required
 def lab9p2_editbook(request, id):
     book = Book.objects.get(id=id)
 
@@ -152,11 +157,13 @@ def lab9p2_editbook(request, id):
         form = BookForm(instance=book)
 
     return render(request, 'bookmodule/lab9p2_edit.html', {'form': form, 'book': book})
+@login_required
 def lab10_liststudents(request):
     students = Student.objects.all()
     return render(request, 'bookmodule/lab10_students_list.html', {'students': students})
 
 
+@login_required
 def lab10_addstudent(request):
     if request.method == "POST":
         form = StudentForm(request.POST)
@@ -168,6 +175,7 @@ def lab10_addstudent(request):
     return render(request, 'bookmodule/lab10_student_form.html', {'form': form, 'action': 'Add'})
 
 
+@login_required
 def lab10_editstudent(request, id):
     student = Student.objects.get(id=id)
     if request.method == "POST":
@@ -180,15 +188,18 @@ def lab10_editstudent(request, id):
     return render(request, 'bookmodule/lab10_student_form.html', {'form': form, 'action': 'Edit'})
 
 
+@login_required
 def lab10_deletestudent(request, id):
     student = Student.objects.get(id=id)
     student.delete()
     return redirect('lab10_liststudents')
+@login_required
 def lab10_liststudents2(request):
     students = Student2.objects.all()
     return render(request, 'bookmodule/lab10_students2_list.html', {'students': students})
 
 
+@login_required
 def lab10_addstudent2(request):
     if request.method == "POST":
         form = Student2Form(request.POST)
@@ -200,12 +211,14 @@ def lab10_addstudent2(request):
     return render(request, 'bookmodule/lab10_student2_form.html', {'form': form, 'action': 'Add'})
 
 
+@login_required
 def lab10_deletestudent2(request, id):
     student = Student2.objects.get(id=id)
     student.delete()
     return redirect('lab10_liststudents2')
 
 
+@login_required
 def lab10_editstudent2(request, id):
     student = Student2.objects.get(id=id)
     if request.method == "POST":
@@ -216,11 +229,13 @@ def lab10_editstudent2(request, id):
     else:
         form = Student2Form(instance=student)
     return render(request, 'bookmodule/lab10_student2_form.html', {'form': form, 'action': 'Edit'})
+@login_required
 def lab10_listproducts(request):
     products = Product.objects.all()
     return render(request, 'bookmodule/lab10_products_list.html', {'products': products})
 
 
+@login_required
 def lab10_addproduct(request):
     if request.method == "POST":
         form = ProductForm(request.POST, request.FILES)
@@ -232,6 +247,7 @@ def lab10_addproduct(request):
     return render(request, 'bookmodule/lab10_product_form.html', {'form': form, 'action': 'Add'})
 
 
+@login_required
 def lab10_editproduct(request, id):
     product = Product.objects.get(id=id)
     if request.method == "POST":
@@ -244,6 +260,7 @@ def lab10_editproduct(request, id):
     return render(request, 'bookmodule/lab10_product_form.html', {'form': form, 'action': 'Edit'})
 
 
+@login_required
 def lab10_deleteproduct(request, id):
     product = Product.objects.get(id=id)
     product.delete()

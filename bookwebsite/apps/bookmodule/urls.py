@@ -42,6 +42,7 @@ urlpatterns = [
      path('lab10/products/add', views.lab10_addproduct, name='lab10_addproduct'),
      path('lab10/products/edit/<int:id>', views.lab10_editproduct, name='lab10_editproduct'),
      path('lab10/products/delete/<int:id>', views.lab10_deleteproduct, name='lab10_deleteproduct'),
+     
      ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
