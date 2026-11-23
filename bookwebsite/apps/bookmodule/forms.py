@@ -1,7 +1,11 @@
 from django import forms
-from .models import Book
+from .models import Book , Product
 
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = ['title','author','edition','price']
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['name', 'price', 'image']

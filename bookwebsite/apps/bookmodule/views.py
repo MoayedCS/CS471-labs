@@ -1,10 +1,11 @@
 # Create your views here.
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import Book
+from .models import Book , Product
 from django.db.models import Q, Count, Sum, Avg, Max, Min
-from apps.usermodule.models import Address, Student
-from .forms import BookForm
+from .forms import BookForm , ProductForm
+from apps.usermodule.models import Student, Address , Student2
+from apps.usermodule.forms import StudentForm , Student2Form
 def index(request):
        return render(request, "bookmodule/index.html")
 def index2(request, val1 = 0 ): # add the view function (index2)
@@ -151,3 +152,99 @@ def lab9p2_editbook(request, id):
         form = BookForm(instance=book)
 
     return render(request, 'bookmodule/lab9p2_edit.html', {'form': form, 'book': book})
+def lab10_liststudents(request):
+    students = Student.objects.all()
+    return render(request, 'bookmodule/lab10_students_list.html', {'students': students})
+
+
+def lab10_addstudent(request):
+    if request.method == "POST":
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lab10_liststudents')
+    else:
+        form = StudentForm()
+    return render(request, 'bookmodule/lab10_student_form.html', {'form': form, 'action': 'Add'})
+
+
+def lab10_editstudent(request, id):
+    student = Student.objects.get(id=id)
+    if request.method == "POST":
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('lab10_liststudents')
+    else:
+        form = StudentForm(instance=student)
+    return render(request, 'bookmodule/lab10_student_form.html', {'form': form, 'action': 'Edit'})
+
+
+def lab10_deletestudent(request, id):
+    student = Student.objects.get(id=id)
+    student.delete()
+    return redirect('lab10_liststudents')
+def lab10_liststudents2(request):
+    students = Student2.objects.all()
+    return render(request, 'bookmodule/lab10_students2_list.html', {'students': students})
+
+
+def lab10_addstudent2(request):
+    if request.method == "POST":
+        form = Student2Form(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lab10_liststudents2')
+    else:
+        form = Student2Form()
+    return render(request, 'bookmodule/lab10_student2_form.html', {'form': form, 'action': 'Add'})
+
+
+def lab10_deletestudent2(request, id):
+    student = Student2.objects.get(id=id)
+    student.delete()
+    return redirect('lab10_liststudents2')
+
+
+def lab10_editstudent2(request, id):
+    student = Student2.objects.get(id=id)
+    if request.method == "POST":
+        form = Student2Form(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('lab10_liststudents2')
+    else:
+        form = Student2Form(instance=student)
+    return render(request, 'bookmodule/lab10_student2_form.html', {'form': form, 'action': 'Edit'})
+def lab10_listproducts(request):
+    products = Product.objects.all()
+    return render(request, 'bookmodule/lab10_products_list.html', {'products': products})
+
+
+def lab10_addproduct(request):
+    if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('lab10_listproducts')
+    else:
+        form = ProductForm()
+    return render(request, 'bookmodule/lab10_product_form.html', {'form': form, 'action': 'Add'})
+
+
+def lab10_editproduct(request, id):
+    product = Product.objects.get(id=id)
+    if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('lab10_listproducts')
+    else:
+        form = ProductForm(instance=product)
+    return render(request, 'bookmodule/lab10_product_form.html', {'form': form, 'action': 'Edit'})
+
+
+def lab10_deleteproduct(request, id):
+    product = Product.objects.get(id=id)
+    product.delete()
+    return redirect('lab10_listproducts')

@@ -1,0 +1,14 @@
+{% extends "layouts/base2.html" %}
+
+{% block title %} {{ action }} Product {% endblock title %}
+
+{% block content %}
+<h1>{{ action }} Product</h1>
+
+<form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+    <a href="{% url 'lab10_listproducts' %}">Cancel</a>
+</form>
+{% endblock content %}

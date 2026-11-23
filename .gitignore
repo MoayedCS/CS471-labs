@@ -11,3 +11,5 @@ venv/
 .DS_Store
 .history
 CLAUDE.md
+
+media/

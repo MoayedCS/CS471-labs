@@ -1,0 +1,38 @@
+{% extends "layouts/base2.html" %}
+
+{% block title %} Products {% endblock title %}
+
+{% block content %}
+<h1>Products</h1>
+
+<p><a href="{% url 'lab10_addproduct' %}">Add New Product</a></p>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Actions</th>
+    </tr>
+    {% for product in products %}
+    <tr>
+        <td>{{ product.id }}</td>
+        <td>
+            {% if product.image %}
+                <img src="{{ product.image.url }}" width="100" alt="{{ product.name }}">
+            {% else %}
+                No image
+            {% endif %}
+        </td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }}</td>
+        <td>
+            <a href="{% url 'lab10_editproduct' product.id %}">Edit</a>
+            |
+            <a href="{% url 'lab10_deleteproduct' product.id %}" onclick="return confirm('Delete?')">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}

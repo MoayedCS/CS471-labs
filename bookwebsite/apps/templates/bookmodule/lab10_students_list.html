@@ -1,0 +1,32 @@
+{% extends "layouts/base2.html" %}
+
+{% block title %} Students {% endblock title %}
+
+{% block content %}
+<h1>Students</h1>
+
+<p><a href="{% url 'lab10_addstudent' %}">Add New Student</a></p>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>City</th>
+        <th>Actions</th>
+    </tr>
+    {% for student in students %}
+    <tr>
+        <td>{{ student.id }}</td>
+        <td>{{ student.name }}</td>
+        <td>{{ student.age }}</td>
+        <td>{{ student.address.city }}</td>
+        <td>
+            <a href="{% url 'lab10_editstudent' student.id %}">Edit</a>
+            |
+            <a href="{% url 'lab10_deletestudent' student.id %}" onclick="return confirm('Delete?')">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}
