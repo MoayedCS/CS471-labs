@@ -1,9 +1,10 @@
 # Create your views here.
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Book
 from django.db.models import Q, Count, Sum, Avg, Max, Min
 from apps.usermodule.models import Address, Student
+from .forms import BookForm
 def index(request):
        return render(request, "bookmodule/index.html")
 def index2(request, val1 = 0 ): # add the view function (index2)
@@ -87,3 +88,66 @@ def lab8_task5(request):
 def lab8_task7(request):
     cities = Address.objects.annotate(student_count=Count('student'))
     return render(request, 'bookmodule/lab8_cities.html', {'cities': cities})
+def lab9p1_listbooks(request):
+    mybooks = Book.objects.all()
+    return render(request, 'bookmodule/lab9p1_list.html', {'books': mybooks})
+def lab9p1_addbook(request):
+    if request.method == "POST":
+        title = request.POST.get('title')
+        author = request.POST.get('author')
+        price = request.POST.get('price')
+        edition = request.POST.get('edition')
+
+        Book.objects.create(
+            title=title,
+            author=author,
+            price=price,
+            edition=edition
+        )
+        return redirect('lab9p1_listbooks')
+
+    return render(request, 'bookmodule/lab9p1_add.html')
+def lab9p1_editbook(request, id):
+    book = Book.objects.get(id=id)
+
+    if request.method == "POST":
+        book.title = request.POST.get('title')
+        book.author = request.POST.get('author')
+        book.price = request.POST.get('price')
+        book.edition = request.POST.get('edition')
+        book.save()
+        return redirect('lab9p1_listbooks')
+    return render(request, 'bookmodule/lab9p1_edit.html', {'book': book})
+def lab9p1_deletebook(request, id):
+    book = Book.objects.get(id=id)
+    book.delete()
+    return redirect('lab9p1_listbooks')
+def lab9p2_listbooks(request):
+    mybooks = Book.objects.all()
+    return render(request, 'bookmodule/lab9p2_list.html', {'books': mybooks})
+def lab9p2_deletebook(request, id):
+    book = Book.objects.get(id=id)
+    book.delete()
+    return redirect('lab9p2_listbooks')
+def lab9p2_addbook(request):
+    if request.method == "POST":
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lab9p2_listbooks')
+    else:
+        form = BookForm()
+
+    return render(request, 'bookmodule/lab9p2_add.html', {'form': form})
+def lab9p2_editbook(request, id):
+    book = Book.objects.get(id=id)
+
+    if request.method == "POST":
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('lab9p2_listbooks')
+    else:
+        form = BookForm(instance=book)
+
+    return render(request, 'bookmodule/lab9p2_edit.html', {'form': form, 'book': book})

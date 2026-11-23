@@ -1,0 +1,34 @@
+{% extends "layouts/base2.html" %}
+
+{% block title %} Books List {% endblock title %}
+
+{% block content %}
+<h1>Books List (Django Forms)</h1>
+
+<p><a href="{% url 'lab9p2_addbook' %}">Add New Book</a></p>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Price</th>
+        <th>Edition</th>
+        <th>Actions</th>
+    </tr>
+    {% for book in books %}
+    <tr>
+        <td>{{ book.id }}</td>
+        <td>{{ book.title }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.price }}</td>
+        <td>{{ book.edition }}</td>
+        <td>
+            <a href="{% url 'lab9p2_editbook' book.id %}">Edit</a>
+            |
+            <a href="{% url 'lab9p2_deletebook' book.id %}" onclick="return confirm('Delete this book?')">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}
